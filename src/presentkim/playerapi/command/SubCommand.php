@@ -46,12 +46,10 @@ abstract class SubCommand{
     protected $usage;
 
     /**
-     * SubCommand constructor.
-     *
-     * @param PoolCommand $owner
      * @param string      $label
+     * @param PoolCommand $owner
      */
-    public function __construct(PoolCommand $owner, string $label){
+    public function __construct(string $label, PoolCommand $owner){
         $this->owner = $owner;
         $this->plugin = $owner->getPlugin();
         $this->langId = "{$owner->getLangId()}.{$label}";
