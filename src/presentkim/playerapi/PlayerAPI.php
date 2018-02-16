@@ -9,7 +9,7 @@ use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\plugin\PluginBase;
 use presentkim\playerapi\command\PoolCommand;
 use presentkim\playerapi\command\module\{
-  ModuleCommand, SetSpeedModule
+  ModuleCommand, SetScaleModule, SetSpeedModule
 };
 use presentkim\playerapi\command\subcommand\{
   ListSubCommand, LangSubCommand, ReloadSubCommand, SaveSubCommand
@@ -101,6 +101,7 @@ class PlayerAPI extends PluginBase{
             $this->command->addSubCommand(new SaveSubCommand($this->command));
 
             $this->addModule(new SetSpeedModule('setspeed', $this));
+            $this->addModule(new SetScaleModule('setscale', $this));
         }
         $commandMap = $this->getServer()->getCommandMap();
         $fallbackPrefix = strtolower($this->getName());

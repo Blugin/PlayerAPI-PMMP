@@ -27,4 +27,7 @@ permissions:
   setspeed.cmd:
     description:             PlayerAPI Speed Module command
     default:                 op
+  setscale.cmd:
+    description:             PlayerAPI Scale Module command
+    default:                 op
 ...
