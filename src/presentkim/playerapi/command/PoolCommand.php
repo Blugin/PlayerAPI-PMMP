@@ -5,16 +5,12 @@ declare(strict_types=1);
 namespace presentkim\playerapi\command;
 
 use pocketmine\command\{
-  Command, PluginCommand, CommandExecutor, CommandSender
+  Command, CommandSender
 };
+use pocketmine\plugin\Plugin;
 use presentkim\playerapi\PlayerAPI;
 
-class PoolCommand extends PluginCommand implements CommandExecutor{
-
-    /**
-     * @var string
-     */
-    protected $langId;
+class PoolCommand extends ExecutableCommand{
 
     /**
      * @var SubCommand[]
@@ -22,24 +18,13 @@ class PoolCommand extends PluginCommand implements CommandExecutor{
     protected $subCommands = [];
 
     /**
-     * @var \ReflectionProperty
-     */
-    private $nameReflection = null;
-
-    /**
-     * @param PlayerAPI    $plugin
+     * @param Plugin       $plugin
      * @param string       $name
-     * @param SubCommand[] $subCommands
+     * @param SubCommand[] $subCommands = []
      */
-    public function __construct(PlayerAPI $plugin, string $name, SubCommand ...$subCommands){
-        parent::__construct($name, $plugin);
-        $this->setExecutor($this);
+    public function __construct(string $name, Plugin $plugin, array $subCommands = []){
         $this->subCommands = $subCommands;
-        $this->nameReflection = (new \ReflectionClass(Command::class))->getProperty('name');
-        $this->nameReflection->setAccessible(true);
-        $this->langId = "commands.{$name}";
-        $this->setPermission("{$name}.cmd");
-        $this->updateTranslation();
+        parent::__construct($name, $plugin);
     }
 
     /**
@@ -67,42 +52,15 @@ class PoolCommand extends PluginCommand implements CommandExecutor{
     }
 
     /**
-     * @param null|string $id     = null
-     * @param string[]    $params = []
-     *
-     * @return string
-     */
-    public function translate(?string $id = null, array $params = []) : string{
-        /** @var PlayerAPI $plugin */
-        $plugin = $this->getPlugin();
-        return $plugin->getLanguage()->translate($this->langId . (empty($id) ? '' : ".{$id}"), $params);
-    }
-
-    /**
      * @param bool $updateSubCommand = true;
      */
     public function updateTranslation(bool $updateSubCommand = true) : void{
-        $this->nameReflection->setValue($this, $this->translate());
-        $this->description = $this->translate('description');
-        $this->usageMessage = $this->getUsage();
-        /** @var PlayerAPI $plugin */
-        $plugin = $this->getPlugin();
-        $aliases = $plugin->getLanguage()->getArray("{$this->langId}.aliases");
-        if (is_array($aliases)) {
-            $this->setAliases($aliases);
-        }
+        parent::updateTranslation();
         if ($updateSubCommand) {
-            foreach ($this->subCommands as $key => $value) {
-                $value->updateTranslation();
+            foreach ($this->subCommands as $key => $subCommand) {
+                $subCommand->updateTranslation();
             }
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function getLangId() : string{
-        return $this->langId;
     }
 
     /** @return SubCommand[] */
@@ -110,21 +68,14 @@ class PoolCommand extends PluginCommand implements CommandExecutor{
         return $this->subCommands;
     }
 
-    /**
-     * @param string $langId
-     */
-    public function setLangId(string $langId) : void{
-        $this->langId = $langId;
-    }
-
     /** @param SubCommand[] $subCommands */
     public function setSubCommands(array $subCommands) : void{
         $this->subCommands = $subCommands;
     }
 
-    /** @param SubCommand::class $subCommandClass */
-    public function createSubCommand($subCommandClass) : void{
-        $this->subCommands[] = new $subCommandClass($this);
+    /** @param SubCommand $subCommand */
+    public function addSubCommand(SubCommand $subCommand) : void{
+        $this->subCommands[] = $subCommand;
     }
 
     /**
