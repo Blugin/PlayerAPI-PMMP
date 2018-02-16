@@ -8,7 +8,7 @@ use pocketmine\nbt\BigEndianNBTStream;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\plugin\PluginBase;
 use presentkim\playerapi\command\PoolCommand;
-use presentkim\playerapi\command\subcommands\{
+use presentkim\playerapi\command\subcommand\{
   ListSubCommand, LangSubCommand, ReloadSubCommand, SaveSubCommand
 };
 use presentkim\playerapi\lang\PluginLang;
