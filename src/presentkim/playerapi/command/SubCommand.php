@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace presentkim\playerapi\command;
 
 use pocketmine\command\CommandSender;
+use pocketmine\plugin\Plugin;
 use presentkim\playerapi\PlayerAPI;
 use presentkim\playerapi\util\Utils;
 
@@ -128,7 +129,7 @@ abstract class SubCommand{
     /**
      * @return PlayerAPI
      */
-    public function getPlugin() : PlayerAPI{
+    public function getPlugin() : Plugin{
         return $this->plugin;
     }
 
