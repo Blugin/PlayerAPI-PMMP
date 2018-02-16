@@ -8,6 +8,9 @@ use pocketmine\nbt\BigEndianNBTStream;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\plugin\PluginBase;
 use presentkim\playerapi\command\PoolCommand;
+use presentkim\playerapi\command\module\{
+    ModuleCommand
+};
 use presentkim\playerapi\command\subcommand\{
   ListSubCommand, LangSubCommand, ReloadSubCommand, SaveSubCommand
 };
@@ -36,6 +39,11 @@ class PlayerAPI extends PluginBase{
      * @var PoolCommand
      */
     private $command;
+
+    /**
+     * @var ModuleCommand[]
+     */
+    private $modules = [];
 
     /**
      * @var CompoundTag[]
@@ -121,6 +129,27 @@ class PlayerAPI extends PluginBase{
      */
     public function getCommand(string $name = '') : PoolCommand{
         return $this->command;
+    }
+
+    /**
+     * @return ModuleCommand[]
+     */
+    public function getModules() : array{
+        return $this->modules;
+    }
+
+    /**
+     * @param ModuleCommand[] $modules
+     */
+    public function setModules(array $modules) : void{
+        $this->modules = $modules;
+    }
+
+    /**
+     * @param ModuleCommand $module
+     */
+    public function addModule(ModuleCommand $module) : void{
+        $this->modules[$module->getName()] = $module;
     }
 
     /**
