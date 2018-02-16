@@ -15,6 +15,7 @@ use presentkim\playerapi\command\subcommand\{
   ListSubCommand, LangSubCommand, ReloadSubCommand, SaveSubCommand
 };
 use presentkim\playerapi\lang\PluginLang;
+use presentkim\playerapi\listener\PlayerEventListener;
 
 class PlayerAPI extends PluginBase{
 
@@ -57,6 +58,7 @@ class PlayerAPI extends PluginBase{
     }
 
     public function onEnable() : void{
+        $this->getServer()->getPluginManager()->registerEvents(new PlayerEventListener($this), $this);
         $this->load();
     }
 
