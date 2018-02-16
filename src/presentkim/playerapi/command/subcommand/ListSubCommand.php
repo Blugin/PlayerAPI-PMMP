@@ -6,6 +6,7 @@ namespace presentkim\playerapi\command\subcommand;
 
 use pocketmine\command\CommandSender;
 use presentkim\playerapi\command\ExecutableCommand;
+use presentkim\playerapi\command\module\ModuleCommand;
 
 class ListSubCommand extends SubCommand{
 
@@ -21,6 +22,11 @@ class ListSubCommand extends SubCommand{
      */
     public function onCommand(CommandSender $sender, array $args) : bool{
         $modules = [];
+        foreach ($this->getPlugin()->getModules() as $moduleName => $module) {
+            if ($module->testPermissionSilent($sender)) {
+                $modules[$moduleName] = $module;
+            }
+        }
 
         if (!empty($args[0]) && is_numeric($args[0])) {
             $pageNumber = (int) $args[0];
@@ -33,18 +39,22 @@ class ListSubCommand extends SubCommand{
 
         ksort($modules, SORT_NATURAL | SORT_FLAG_CASE);
         $pageHeight = $sender->getScreenLineHeight();
-        $commands = array_chunk($modules, $pageHeight);
-        $pageNumber = (int) min(count($commands), $pageNumber);
+        /** @var ModuleCommand[][] $modules */
+        $modules = array_chunk($modules, $pageHeight);
+        $pageNumber = (int) min(count($modules), $pageNumber);
         if ($pageNumber < 1) {
             $pageNumber = 1;
         }
         $sender->sendMessage($this->translate('header', [
           $pageNumber,
-          count($commands),
+          count($modules),
         ]));
-        if (isset($commands[$pageNumber - 1])) {
-            foreach ($commands[$pageNumber - 1] as $command) {
-                $sender->sendMessage($this->translate('item', []));
+        if (isset($modules[$pageNumber - 1])) {
+            foreach ($modules[$pageNumber - 1] as $i => $module) {
+                $sender->sendMessage($this->translate('item', [
+                  $module->getModuleName(),
+                  $module->getUsage($sender),
+                ]));
             }
         }
         return true;
