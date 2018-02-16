@@ -100,11 +100,19 @@ class PlayerAPI extends PluginBase{
             $this->command->addSubCommand(new SaveSubCommand($this->command));
         }
         $commandMap = $this->getServer()->getCommandMap();
+        $fallbackPrefix = strtolower($this->getName());
         $this->command->updateTranslation(true);
         if ($this->command->isRegistered()) {
             $commandMap->unregister($this->command);
         }
-        $commandMap->register(strtolower($this->getName()), $this->command);
+        $commandMap->register($fallbackPrefix, $this->command);
+        foreach ($this->modules as $moduleName => $module) {
+            $module->updateTranslation();
+            if ($module->isRegistered()) {
+                $commandMap->unregister($module);
+            }
+            $commandMap->register($fallbackPrefix, $module);
+        }
     }
 
     public function save() : void{
