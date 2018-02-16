@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace presentkim\playerapi\lang;
 
-use presentkim\playerapi\PlayerAPI as Plugin;
+use presentkim\playerapi\PlayerAPI;
 
 class PluginLang{
 
     public const FALLBACK_LANGUAGE = "eng";
 
     /**
-     * @var Plugin
+     * @var PlayerAPI
      */
-    protected $owner;
+    protected $plugin;
 
     /**
      * @var string[]
@@ -25,11 +25,11 @@ class PluginLang{
      */
     protected $fallbackLang = [];
 
-    public function __construct(Plugin $owner){
-        $this->owner = $owner;
+    public function __construct(PlayerAPI $plugin){
+        $this->plugin = $plugin;
 
-        $fallbackLangFile = "{$owner->getSourceFolder()}resources/lang/eng.ini";
-        $dataFolder = $owner->getDataFolder();
+        $fallbackLangFile = "{$plugin->getSourceFolder()}resources/lang/eng.ini";
+        $dataFolder = $plugin->getDataFolder();
         $langFile = "{$dataFolder}lang.ini";
         if (!file_exists($langFile)) {
             if (!file_exists($dataFolder)) {
@@ -42,10 +42,10 @@ class PluginLang{
     }
 
     /**
-     * @return Plugin
+     * @return PlayerAPI
      */
-    public function getOwner() : Plugin{
-        return $this->owner;
+    public function getPlugin() : PlayerAPI{
+        return $this->plugin;
     }
 
     /**
@@ -125,7 +125,7 @@ class PluginLang{
      */
     public function getLanguageList() : array{
         $result = [];
-        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->owner->getSourceFolder() . 'resources/lang/')) as $filePath => $fileInfo) {
+        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->plugin->getSourceFolder() . 'resources/lang/')) as $filePath => $fileInfo) {
             if (substr($filePath, -4) == '.ini') {
                 $lang = $this->loadLang($filePath);
                 if (isset($lang['language.name'])) {

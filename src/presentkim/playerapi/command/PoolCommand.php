@@ -7,7 +7,7 @@ namespace presentkim\playerapi\command;
 use pocketmine\command\{
   Command, PluginCommand, CommandExecutor, CommandSender
 };
-use presentkim\playerapi\PlayerAPI as Plugin;
+use presentkim\playerapi\PlayerAPI;
 
 class PoolCommand extends PluginCommand implements CommandExecutor{
 
@@ -27,12 +27,12 @@ class PoolCommand extends PluginCommand implements CommandExecutor{
     private $nameReflection = null;
 
     /**
-     * @param Plugin       $owner
+     * @param PlayerAPI    $plugin
      * @param string       $name
      * @param SubCommand[] $subCommands
      */
-    public function __construct(Plugin $owner, string $name, SubCommand ...$subCommands){
-        parent::__construct($name, $owner);
+    public function __construct(PlayerAPI $plugin, string $name, SubCommand ...$subCommands){
+        parent::__construct($name, $plugin);
         $this->setExecutor($this);
         $this->subCommands = $subCommands;
         $this->nameReflection = (new \ReflectionClass(Command::class))->getProperty('name');
@@ -60,7 +60,7 @@ class PoolCommand extends PluginCommand implements CommandExecutor{
                 }
             }
         }
-        /** @var Plugin $plugin */
+        /** @var PlayerAPI $plugin */
         $plugin = $this->getPlugin();
         $sender->sendMessage($plugin->getLanguage()->translate('commands.generic.usage', [$this->getUsage($sender)]));
         return true;
@@ -73,7 +73,7 @@ class PoolCommand extends PluginCommand implements CommandExecutor{
      * @return string
      */
     public function translate(?string $id = null, array $params = []) : string{
-        /** @var Plugin $plugin */
+        /** @var PlayerAPI $plugin */
         $plugin = $this->getPlugin();
         return $plugin->getLanguage()->translate($this->langId . (empty($id) ? '' : ".{$id}"), $params);
     }
@@ -85,7 +85,7 @@ class PoolCommand extends PluginCommand implements CommandExecutor{
         $this->nameReflection->setValue($this, $this->translate());
         $this->description = $this->translate('description');
         $this->usageMessage = $this->getUsage();
-        /** @var Plugin $plugin */
+        /** @var PlayerAPI $plugin */
         $plugin = $this->getPlugin();
         $aliases = $plugin->getLanguage()->getArray("{$this->langId}.aliases");
         if (is_array($aliases)) {
