@@ -24,4 +24,7 @@ permissions:
       playerapi.cmd.save:
         description:         PlayerAPI Main command - save
         default:             op
+  setspeed.cmd:
+    description:             PlayerAPI Speed Module command
+    default:                 op
 ...
