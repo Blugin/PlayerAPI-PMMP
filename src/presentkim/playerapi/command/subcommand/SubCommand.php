@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace presentkim\playerapi\command;
+namespace presentkim\playerapi\command\subcommand;
 
 use pocketmine\command\CommandSender;
 use pocketmine\plugin\Plugin;

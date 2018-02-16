@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace presentkim\playerapi\command\subcommand;
 
 use pocketmine\command\CommandSender;
-use presentkim\playerapi\command\{
-  ExecutableCommand, SubCommand
-};
+use presentkim\playerapi\command\ExecutableCommand;
 
 class ReloadSubCommand extends SubCommand{
 
