@@ -47,10 +47,10 @@ abstract class SubCommand implements Translation{
     protected $usage;
 
     /**
-     * @param string      $label
-     * @param PoolCommand $owner
+     * @param string            $label
+     * @param ExecutableCommand $owner
      */
-    public function __construct(string $label, PoolCommand $owner){
+    public function __construct(string $label, ExecutableCommand $owner){
         $this->owner = $owner;
         $this->langId = "{$owner->getLangId()}.{$label}";
         $this->permission = "{$owner->getPermission()}.{$label}";

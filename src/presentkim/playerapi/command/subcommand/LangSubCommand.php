@@ -6,12 +6,12 @@ namespace presentkim\playerapi\command\subcommand;
 
 use pocketmine\command\CommandSender;
 use presentkim\playerapi\command\{
-  PoolCommand, SubCommand
+  ExecutableCommand, SubCommand
 };
 
 class LangSubCommand extends SubCommand{
 
-    public function __construct(PoolCommand $owner){
+    public function __construct(ExecutableCommand $owner){
         parent::__construct('lang', $owner);
     }
 
