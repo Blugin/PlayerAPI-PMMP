@@ -63,7 +63,7 @@ class PlayerAPI extends PluginBase{
     }
 
     public function onDisable() : void{
-        //$this->save();
+        $this->save();
     }
 
     /**
