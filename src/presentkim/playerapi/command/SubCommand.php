@@ -17,11 +17,6 @@ abstract class SubCommand{
     protected $owner;
 
     /**
-     * @var PlayerAPI
-     */
-    protected $plugin;
-
-    /**
      * @var string
      */
     protected $langId;
@@ -52,7 +47,6 @@ abstract class SubCommand{
      */
     public function __construct(string $label, PoolCommand $owner){
         $this->owner = $owner;
-        $this->plugin = $owner->getPlugin();
         $this->langId = "{$owner->getLangId()}.{$label}";
         $this->permission = "{$owner->getPermission()}.{$label}";
         $this->updateTranslation();
@@ -64,9 +58,9 @@ abstract class SubCommand{
      */
     public function execute(CommandSender $sender, array $args) : void{
         if (!$this->checkPermission($sender)) {
-            $sender->sendMessage($this->plugin->getLanguage()->translate('commands.generic.permission'));
+            $sender->sendMessage($this->getOwner()->getLanguage()->translate('commands.generic.permission'));
         } elseif (!$this->onCommand($sender, $args)) {
-            $sender->sendMessage($this->plugin->getLanguage()->translate('commands.generic.usage', [$this->getUsage($sender)]));
+            $sender->sendMessage($this->getOwner()->getLanguage()->translate('commands.generic.usage', [$this->getUsage($sender)]));
         }
     }
 
@@ -85,12 +79,12 @@ abstract class SubCommand{
      * @return string
      */
     public function translate(?string $id = null, array $params = []) : string{
-        return $this->plugin->getLanguage()->translate($this->langId . (empty($id) ? '' : ".{$id}"), $params);
+        return $this->getOwner()->getLanguage()->translate($this->langId . (empty($id) ? '' : ".{$id}"), $params);
     }
 
     public function updateTranslation() : void{
         $this->label = $this->translate();
-        $aliases = $this->plugin->getLanguage()->getArray("{$this->langId}.aliases");
+        $aliases = $this->getOwner()->getLanguage()->getArray("{$this->langId}.aliases");
         if (is_array($aliases)) {
             $this->aliases = $aliases;
         }
@@ -130,7 +124,7 @@ abstract class SubCommand{
      * @return PlayerAPI
      */
     public function getPlugin() : Plugin{
-        return $this->plugin;
+        return $this->owner->getPlugin();
     }
 
     /**
