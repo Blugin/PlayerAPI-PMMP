@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace presentkim\playerapi\command\subcommands;
 
 use pocketmine\command\CommandSender;
-use presentkim\playerapi\PlayerAPI as Plugin;
 use presentkim\playerapi\command\{
   PoolCommand, SubCommand
 };

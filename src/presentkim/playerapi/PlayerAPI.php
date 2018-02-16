@@ -115,7 +115,6 @@ class PlayerAPI extends PluginBase{
         if (!file_exists($dataFolder)) {
             mkdir($dataFolder, 0777, true);
         }
-
         $this->saveConfig();
         $playerDataFolder = "{$dataFolder}players/";
         if (!file_exists($playerDataFolder)) {
