@@ -12,7 +12,6 @@ use pocketmine\command\{
 use pocketmine\nbt\tag\CompoundTag;
 use presentkim\playerapi\PlayerAPI;
 use presentkim\playerapi\command\ExecutableCommand;
-use function strtolower;
 
 abstract class ModuleCommand extends ExecutableCommand{
 
@@ -55,9 +54,9 @@ abstract class ModuleCommand extends ExecutableCommand{
         return false;
     }
 
-    abstract public function validate($value);
-
-    abstract public function apply(Player $player);
+    public function getModuleName() : string{
+        return $this->translate('name');
+    }
 
     /**
      * @param string $playerName
@@ -79,4 +78,8 @@ abstract class ModuleCommand extends ExecutableCommand{
     abstract public function setDefault($value) : void;
 
     abstract public function set(String $playerName, $value) : void;
+
+    abstract public function validate($value);
+
+    abstract public function apply(Player $player);
 }
