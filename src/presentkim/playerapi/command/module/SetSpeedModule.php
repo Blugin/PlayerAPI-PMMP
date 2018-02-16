@@ -11,15 +11,18 @@ use pocketmine\nbt\tag\FloatTag;
 
 class SetSpeedModule extends ModuleCommand{
 
+    public const DEFAULT_KEY = 'default-speed';
+    public const TAG_NAME = 'Speed';
+
     public function getDefault() : float{
-        return (float) $this->getPlugin()->getConfig()->get('default-speed');
+        return (float) $this->getPlugin()->getConfig()->get('default-scale');
     }
 
     /**
      * @param float $value
      */
     public function setDefault($value) : void{
-        $this->getPlugin()->getConfig()->set('default-speed', $value);
+        $this->getPlugin()->getConfig()->set('default-scale', $value);
     }
 
     /**
@@ -31,10 +34,10 @@ class SetSpeedModule extends ModuleCommand{
     public function get(String $playerName, bool $load = true) : ?float{
         $playerData = $this->getPlayerData($playerName, $load);
         if ($playerData !== null) {
-            if (!$playerData->hasTag('Speed', FloatTag::class)) {
-                $playerData->setFloat('Speed', $this->getDefault());
+            if (!$playerData->hasTag(static::TAG_NAME, FloatTag::class)) {
+                $playerData->setFloat(static::TAG_NAME, $this->getDefault());
             }
-            return $playerData->getFloat('Speed');
+            return $playerData->getFloat(static::TAG_NAME);
         } else {
             return null;
         }
@@ -43,7 +46,7 @@ class SetSpeedModule extends ModuleCommand{
     public function set(String $playerName, $value) : void{
         $playerData = $this->getPlayerData($playerName);
         if ($playerData !== null) {
-            $playerData->setFloat('Speed', $value);
+            $playerData->setFloat(static::TAG_NAME, $value);
             $player = Server::getInstance()->getPlayerExact($playerName);
             if ($player !== null) {
                 $this->apply($player);

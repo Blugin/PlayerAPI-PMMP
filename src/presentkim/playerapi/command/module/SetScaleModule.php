@@ -6,10 +6,12 @@ namespace presentkim\playerapi\command\module;
 
 use pocketmine\Server;
 use pocketmine\Player;
-use pocketmine\entity\Attribute;
 use pocketmine\nbt\tag\FloatTag;
 
 class SetScaleModule extends ModuleCommand{
+
+    public const DEFAULT_KEY = 'default-scale';
+    public const TAG_NAME = 'Scale';
 
     public function getDefault() : float{
         return (float) $this->getPlugin()->getConfig()->get('default-scale');
@@ -31,10 +33,10 @@ class SetScaleModule extends ModuleCommand{
     public function get(String $playerName, bool $load = true) : ?float{
         $playerData = $this->getPlayerData($playerName, $load);
         if ($playerData !== null) {
-            if (!$playerData->hasTag('Scale', FloatTag::class)) {
-                $playerData->setFloat('Scale', $this->getDefault());
+            if (!$playerData->hasTag(static::TAG_NAME, FloatTag::class)) {
+                $playerData->setFloat(static::TAG_NAME, $this->getDefault());
             }
-            return $playerData->getFloat('Scale');
+            return $playerData->getFloat(static::TAG_NAME);
         } else {
             return null;
         }
@@ -43,7 +45,7 @@ class SetScaleModule extends ModuleCommand{
     public function set(String $playerName, $value) : void{
         $playerData = $this->getPlayerData($playerName);
         if ($playerData !== null) {
-            $playerData->setFloat('Scale', $value);
+            $playerData->setFloat(static::TAG_NAME, $value);
             $player = Server::getInstance()->getPlayerExact($playerName);
             if ($player !== null) {
                 $this->apply($player);

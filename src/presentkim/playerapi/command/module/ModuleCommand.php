@@ -15,6 +15,9 @@ use presentkim\playerapi\command\ExecutableCommand;
 
 abstract class ModuleCommand extends ExecutableCommand{
 
+    public const DEFAULT_KEY = '';
+    public const TAG_NAME = '';
+
     /**
      * @param CommandSender $sender
      * @param Command       $command
