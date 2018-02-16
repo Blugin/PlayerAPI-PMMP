@@ -65,7 +65,6 @@ class SetSpeedModule extends ModuleCommand{
     }
 
     public function apply(Player $player){
-        safe_var_dump($this->get($player->getLowerCaseName()));
         $player->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED)->setValue($this->get($player->getLowerCaseName()));
     }
 }
