@@ -6,6 +6,7 @@ namespace presentkim\playerapi\command;
 
 use pocketmine\command\CommandSender;
 use pocketmine\plugin\Plugin;
+use presentkim\playerapi\lang\PluginLang;
 use presentkim\playerapi\PlayerAPI;
 use presentkim\playerapi\util\Utils;
 
@@ -58,9 +59,9 @@ abstract class SubCommand{
      */
     public function execute(CommandSender $sender, array $args) : void{
         if (!$this->checkPermission($sender)) {
-            $sender->sendMessage($this->getOwner()->getLanguage()->translate('commands.generic.permission'));
+            $sender->sendMessage($this->getLanguage()->translate('commands.generic.permission'));
         } elseif (!$this->onCommand($sender, $args)) {
-            $sender->sendMessage($this->getOwner()->getLanguage()->translate('commands.generic.usage', [$this->getUsage($sender)]));
+            $sender->sendMessage($this->getLanguage()->translate('commands.generic.usage', [$this->getUsage($sender)]));
         }
     }
 
@@ -79,12 +80,12 @@ abstract class SubCommand{
      * @return string
      */
     public function translate(?string $id = null, array $params = []) : string{
-        return $this->getOwner()->getLanguage()->translate($this->langId . (empty($id) ? '' : ".{$id}"), $params);
+        return $this->getLanguage()->translate($this->langId . (empty($id) ? '' : ".{$id}"), $params);
     }
 
     public function updateTranslation() : void{
         $this->label = $this->translate();
-        $aliases = $this->getOwner()->getLanguage()->getArray("{$this->langId}.aliases");
+        $aliases = $this->getLanguage()->getArray("{$this->langId}.aliases");
         if (is_array($aliases)) {
             $this->aliases = $aliases;
         }
@@ -118,13 +119,6 @@ abstract class SubCommand{
      */
     public function getOwner() : PoolCommand{
         return $this->owner;
-    }
-
-    /**
-     * @return PlayerAPI
-     */
-    public function getPlugin() : Plugin{
-        return $this->owner->getPlugin();
     }
 
     /**
@@ -197,5 +191,19 @@ abstract class SubCommand{
      */
     public function setUsage(string $usage) : void{
         $this->usage = $usage;
+    }
+
+    /**
+     * @return PlayerAPI
+     */
+    public function getPlugin() : Plugin{
+        return $this->owner->getPlugin();
+    }
+
+    /**
+     * @return PluginLang
+     */
+    public function getLanguage() : PluginLang{
+        return $this->owner->getLanguage();
     }
 }
