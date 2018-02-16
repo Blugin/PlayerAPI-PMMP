@@ -35,7 +35,7 @@ class PoolCommand extends ExecutableCommand{
      * @return bool
      */
     public function onCommand(CommandSender $sender, Command $command, string $label, array $args) : bool{
-        if (isset($args[0])) {
+        if (!empty($args[0])) {
             $label = array_shift($args);
             foreach ($this->subCommands as $key => $value) {
                 if ($value->checkLabel($label)) {

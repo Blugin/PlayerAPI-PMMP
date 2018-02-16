@@ -24,7 +24,7 @@ class ListSubCommand extends SubCommand{
     public function onCommand(CommandSender $sender, array $args) : bool{
         $modules = [];
 
-        if (isset($args[0]) && is_numeric($args[0])) {
+        if (!empty($args[0]) && is_numeric($args[0])) {
             $pageNumber = (int) $args[0];
             if ($pageNumber <= 0) {
                 $pageNumber = 1;
