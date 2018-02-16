@@ -8,10 +8,13 @@ use pocketmine\command\{
   Command, PluginCommand, CommandExecutor, CommandSender
 };
 use pocketmine\plugin\Plugin;
-use presentkim\playerapi\PlayerAPI;
-use presentkim\playerapi\lang\PluginLang;
+use presentkim\playerapi\lang\{
+  Translation, TranslationTrait
+};
 
-abstract class ExecutableCommand extends PluginCommand implements CommandExecutor{
+abstract class ExecutableCommand extends PluginCommand implements CommandExecutor, Translation{
+
+    use TranslationTrait;
 
     /**
      * @var \ReflectionProperty
@@ -37,16 +40,6 @@ abstract class ExecutableCommand extends PluginCommand implements CommandExecuto
         $this->langId = "commands.{$name}";
         $this->setPermission("{$name}.cmd");
         $this->updateTranslation();
-    }
-
-    /**
-     * @param null|string $id     = null
-     * @param string[]    $params = []
-     *
-     * @return string
-     */
-    public function translate(?string $id = null, array $params = []) : string{
-        return $this->getLanguage()->translate($this->langId . (empty($id) ? '' : ".{$id}"), $params);
     }
 
     public function updateTranslation() : void{
@@ -83,12 +76,5 @@ abstract class ExecutableCommand extends PluginCommand implements CommandExecuto
             $this->usageMessage = $this->translate('usage');
         }
         return $this->usageMessage;
-    }
-
-    /**
-     * @return PluginLang
-     */
-    public function getLanguage() : PluginLang{
-        return PlayerAPI::getInstance()->getLanguage();
     }
 }

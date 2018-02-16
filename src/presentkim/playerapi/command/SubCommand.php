@@ -6,11 +6,15 @@ namespace presentkim\playerapi\command;
 
 use pocketmine\command\CommandSender;
 use pocketmine\plugin\Plugin;
-use presentkim\playerapi\lang\PluginLang;
 use presentkim\playerapi\PlayerAPI;
+use presentkim\playerapi\lang\{
+  Translation, TranslationTrait
+};
 use presentkim\playerapi\util\Utils;
 
-abstract class SubCommand{
+abstract class SubCommand implements Translation{
+
+    use TranslationTrait;
 
     /**
      * @var PoolCommand
@@ -72,16 +76,6 @@ abstract class SubCommand{
      * @return bool
      */
     abstract public function onCommand(CommandSender $sender, array $args) : bool;
-
-    /**
-     * @param null|string $id     = null
-     * @param string[]    $params = []
-     *
-     * @return string
-     */
-    public function translate(?string $id = null, array $params = []) : string{
-        return $this->getLanguage()->translate($this->langId . (empty($id) ? '' : ".{$id}"), $params);
-    }
 
     public function updateTranslation() : void{
         $this->label = $this->translate();
@@ -198,12 +192,5 @@ abstract class SubCommand{
      */
     public function getPlugin() : Plugin{
         return $this->owner->getPlugin();
-    }
-
-    /**
-     * @return PluginLang
-     */
-    public function getLanguage() : PluginLang{
-        return $this->owner->getLanguage();
     }
 }
