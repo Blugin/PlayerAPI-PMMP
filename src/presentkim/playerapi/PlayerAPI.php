@@ -82,10 +82,6 @@ class PlayerAPI extends PluginBase{
         }
         $this->language = new PluginLang($this);
         $this->reloadConfig();
-        $this->reloadCommand();
-    }
-
-    public function reloadCommand() : void{
         if ($this->command == null) {
             $this->command = new PoolCommand('playerapi', $this);
             $this->command->addSubCommand(new ListSubCommand($this->command));
