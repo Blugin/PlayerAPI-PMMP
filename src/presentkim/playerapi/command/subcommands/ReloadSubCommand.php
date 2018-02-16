@@ -12,7 +12,7 @@ use presentkim\playerapi\command\{
 class ReloadSubCommand extends SubCommand{
 
     public function __construct(PoolCommand $owner){
-        parent::__construct($owner, 'reload');
+        parent::__construct('reload', $owner);
     }
 
     /**
@@ -22,7 +22,7 @@ class ReloadSubCommand extends SubCommand{
      * @return bool
      */
     public function onCommand(CommandSender $sender, array $args) : bool{
-        $this->plugin->load();
+        $this->getPlugin()->load();
         $sender->sendMessage($this->translate('success'));
         return true;
     }

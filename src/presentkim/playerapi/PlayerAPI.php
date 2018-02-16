@@ -92,11 +92,11 @@ class PlayerAPI extends PluginBase{
 
     public function reloadCommand() : void{
         if ($this->mainCommand == null) {
-            $this->mainCommand = new PoolCommand($this, 'playerapi');
-            $this->mainCommand->createSubCommand(ListSubCommand::class);
-            $this->mainCommand->createSubCommand(LangSubCommand::class);
-            $this->mainCommand->createSubCommand(ReloadSubCommand::class);
-            $this->mainCommand->createSubCommand(SaveSubCommand::class);
+            $this->mainCommand = new PoolCommand('playerapi', $this);
+            $this->mainCommand->addSubCommand(new ListSubCommand($this->mainCommand));
+            $this->mainCommand->addSubCommand(new LangSubCommand($this->mainCommand));
+            $this->mainCommand->addSubCommand(new ReloadSubCommand($this->mainCommand));
+            $this->mainCommand->addSubCommand(new SaveSubCommand($this->mainCommand));
             $this->commands[$this->mainCommand->getName()] = $this->mainCommand;
         }
         $commandMap = $this->getServer()->getCommandMap();

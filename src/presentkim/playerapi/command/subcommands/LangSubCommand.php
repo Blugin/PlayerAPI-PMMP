@@ -12,7 +12,7 @@ use presentkim\playerapi\command\{
 class LangSubCommand extends SubCommand{
 
     public function __construct(PoolCommand $owner){
-        parent::__construct($owner, 'lang');
+        parent::__construct('lang', $owner);
     }
 
     /**
@@ -23,17 +23,18 @@ class LangSubCommand extends SubCommand{
      */
     public function onCommand(CommandSender $sender, array $args) : bool{
         if (!empty($args[0]) && ($args[0] = strtolower($args[0]))) {
-            $language = $this->plugin->getLanguage();
+            $language = $this->getLanguage();
             $languageList = $language->getLanguageList();
             if (isset($languageList[$args[0]])) {
-                $fallbackLangFile = "{$this->plugin->getSourceFolder()}resources/lang/{$args[0]}.ini";
-                $dataFolder = $this->plugin->getDataFolder();
-                $langFile = "{$dataFolder}lang.ini";
+                $plugin = $this->getPlugin();
+                $dataFolder = $plugin->getDataFolder();
                 if (!file_exists($dataFolder)) {
                     mkdir($dataFolder, 0777, true);
                 }
-                copy($fallbackLangFile, $langFile);
-                $language->setLang($language->loadLang($langFile));
+                $langResourceFile = "{$plugin->getSourceFolder()}resources/lang/{$args[0]}.ini";
+                $langDataFile = "{$dataFolder}lang.ini";
+                copy($langResourceFile, $langDataFile);
+                $language->setLang($language->loadLang($langDataFile));
                 $sender->sendMessage($this->translate('success', [
                   $args[0],
                   $languageList[$args[0]],
@@ -52,6 +53,6 @@ class LangSubCommand extends SubCommand{
      * @return string
      */
     public function getUsage(CommandSender $sender = null) : string{
-        return $this->translate('usage', [implode($this->translate('usage.separator', [], false), $this->plugin->getLanguage()->getLanguageList())], false);
+        return $this->translate('usage', [implode($this->translate('usage.separator'), $this->getPlugin()->getLanguage()->getLanguageList())]);
     }
 }

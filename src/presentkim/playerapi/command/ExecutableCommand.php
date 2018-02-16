@@ -8,8 +8,8 @@ use pocketmine\command\{
   Command, PluginCommand, CommandExecutor, CommandSender
 };
 use pocketmine\plugin\Plugin;
-use presentkim\playerapi\lang\PluginLang;
 use presentkim\playerapi\PlayerAPI;
+use presentkim\playerapi\lang\PluginLang;
 
 abstract class ExecutableCommand extends PluginCommand implements CommandExecutor{
 

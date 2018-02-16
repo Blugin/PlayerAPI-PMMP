@@ -8,7 +8,6 @@ use pocketmine\command\{
   Command, CommandSender
 };
 use pocketmine\plugin\Plugin;
-use presentkim\playerapi\PlayerAPI;
 
 class PoolCommand extends ExecutableCommand{
 

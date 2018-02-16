@@ -12,7 +12,7 @@ use presentkim\playerapi\command\{
 class ListSubCommand extends SubCommand{
 
     public function __construct(PoolCommand $owner){
-        parent::__construct($owner, 'list');
+        parent::__construct('list', $owner);
     }
 
     /**
@@ -24,7 +24,7 @@ class ListSubCommand extends SubCommand{
     public function onCommand(CommandSender $sender, array $args) : bool{
         /** @var PoolCommand[] $modules */
         $modules = [];
-        foreach ($this->plugin->getCommands() as $commandName => $command) {
+        foreach ($this->getPlugin()->getCommands() as $commandName => $command) {
             if ($this->owner !== $command) {
                 $modules[] = $command;
             }

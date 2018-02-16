@@ -12,7 +12,7 @@ use presentkim\playerapi\command\{
 class SaveSubCommand extends SubCommand{
 
     public function __construct(PoolCommand $owner){
-        parent::__construct($owner, 'save');
+        parent::__construct('save', $owner);
     }
 
     /**
@@ -22,7 +22,7 @@ class SaveSubCommand extends SubCommand{
      * @return bool
      */
     public function onCommand(CommandSender $sender, array $args) : bool{
-        $this->plugin->save();
+        $this->getPlugin()->save();
         $sender->sendMessage($this->translate('success'));
         return true;
     }
