@@ -43,7 +43,7 @@ class SetSpeedModule extends ModuleCommand{
     public function set(String $playerName, $value) : void{
         $playerData = $this->getPlayerData($playerName);
         if ($playerData !== null) {
-            $playerData->setFloat('Speed', $this->getDefault());
+            $playerData->setFloat('Speed', $value);
             $player = Server::getInstance()->getPlayerExact($playerName);
             if ($player !== null) {
                 $this->apply($player);
