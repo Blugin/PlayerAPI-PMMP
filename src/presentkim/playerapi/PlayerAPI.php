@@ -35,12 +35,7 @@ class PlayerAPI extends PluginBase{
     /**
      * @var PoolCommand
      */
-    private $mainCommand;
-
-    /**
-     * @var PoolCommand[]
-     */
-    private $commands = [];
+    private $command;
 
     /**
      * @var CompoundTag[]
@@ -91,23 +86,19 @@ class PlayerAPI extends PluginBase{
     }
 
     public function reloadCommand() : void{
-        if ($this->mainCommand == null) {
-            $this->mainCommand = new PoolCommand('playerapi', $this);
-            $this->mainCommand->addSubCommand(new ListSubCommand($this->mainCommand));
-            $this->mainCommand->addSubCommand(new LangSubCommand($this->mainCommand));
-            $this->mainCommand->addSubCommand(new ReloadSubCommand($this->mainCommand));
-            $this->mainCommand->addSubCommand(new SaveSubCommand($this->mainCommand));
-            $this->commands[$this->mainCommand->getName()] = $this->mainCommand;
+        if ($this->command == null) {
+            $this->command = new PoolCommand('playerapi', $this);
+            $this->command->addSubCommand(new ListSubCommand($this->command));
+            $this->command->addSubCommand(new LangSubCommand($this->command));
+            $this->command->addSubCommand(new ReloadSubCommand($this->command));
+            $this->command->addSubCommand(new SaveSubCommand($this->command));
         }
         $commandMap = $this->getServer()->getCommandMap();
-        $fallback = strtolower($this->getName());
-        foreach ($this->commands as $commandName => $command) {
-            $command->updateTranslation(true);
-            if ($command->isRegistered()) {
-                $commandMap->unregister($command);
-            }
-            $commandMap->register($fallback, $command);
+        $this->command->updateTranslation(true);
+        if ($this->command->isRegistered()) {
+            $commandMap->unregister($this->command);
         }
+        $commandMap->register(strtolower($this->getName()), $this->command);
     }
 
     public function save() : void{
@@ -128,26 +119,12 @@ class PlayerAPI extends PluginBase{
     }
 
     /**
+     * @param string $name
+     *
      * @return PoolCommand
      */
-    public function getMainCommand() : PoolCommand{
-        return $this->mainCommand;
-    }
-
-    /**
-     * @return PoolCommand[]
-     */
-    public function getCommands() : array{
-        return $this->commands;
-    }
-
-    /**
-     * @param string $name = ''
-     *
-     * @return null|PoolCommand
-     */
-    public function getCommand(string $name = '') : ?PoolCommand{
-        return $this->commands[$name] ?? null;
+    public function getCommand(string $name = '') : PoolCommand{
+        return $this->command;
     }
 
     /**

@@ -22,13 +22,7 @@ class ListSubCommand extends SubCommand{
      * @return bool
      */
     public function onCommand(CommandSender $sender, array $args) : bool{
-        /** @var PoolCommand[] $modules */
         $modules = [];
-        foreach ($this->getPlugin()->getCommands() as $commandName => $command) {
-            if ($this->owner !== $command) {
-                $modules[] = $command;
-            }
-        }
 
         if (isset($args[0]) && is_numeric($args[0])) {
             $pageNumber = (int) $args[0];
@@ -41,7 +35,6 @@ class ListSubCommand extends SubCommand{
 
         ksort($modules, SORT_NATURAL | SORT_FLAG_CASE);
         $pageHeight = $sender->getScreenLineHeight();
-        /** @var PoolCommand[][] $commands */
         $commands = array_chunk($modules, $pageHeight);
         $pageNumber = (int) min(count($commands), $pageNumber);
         if ($pageNumber < 1) {
@@ -53,10 +46,7 @@ class ListSubCommand extends SubCommand{
         ]));
         if (isset($commands[$pageNumber - 1])) {
             foreach ($commands[$pageNumber - 1] as $command) {
-                $sender->sendMessage($this->translate('item', [
-                  $command->getName(),
-                  $command->getDescription(),
-                ]));
+                $sender->sendMessage($this->translate('item', []));
             }
         }
         return true;
