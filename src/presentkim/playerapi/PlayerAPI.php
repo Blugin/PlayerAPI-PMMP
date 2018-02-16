@@ -86,6 +86,7 @@ class PlayerAPI extends PluginBase{
     }
 
     public function load() : void{
+        $this->playerDatas = [];
         $playerDataFolder = "{$this->getDataFolder()}players/";
         if (!file_exists($playerDataFolder)) {
             mkdir($playerDataFolder, 0777, true);
