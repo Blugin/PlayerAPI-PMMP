@@ -30,7 +30,7 @@ abstract class ModuleCommand extends ExecutableCommand{
                 $sender->sendMessage($this->getLanguage()->translate('commands.generic.invalid', [$args[1]]));
             } elseif ($args[0] === '-') {
                 $this->setDefault($value);
-                $sender->sendMessage($this->translate('setDefault', [$args[1]]));
+                $sender->sendMessage($this->translate('setDefault', [$value]));
             } else {
                 $player = Server::getInstance()->getPlayer($args[0]);
                 if ($player !== null) {
