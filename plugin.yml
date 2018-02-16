@@ -1,0 +1,27 @@
+---
+name:                        PlayerAPI
+main:                        presentkim\playerapi\PlayerAPI
+version:                     1.0.0
+api:                         [3.0.0, 3.0.0-ALPHA10, 3.0.0-ALPHA11]
+author:                      PresentKim
+website:                     https://github.com/PMMPPlugin/PlayerAPI
+description:                 A plugin player data api
+
+permissions:
+  playerapi.cmd:
+    description:             PlayerAPI Main command
+    default:                 op
+    children:
+      playerapi.cmd.list:
+        description:         PlayerAPI Main command - list
+        default:             op
+      playerapi.cmd.lang:
+        description:         PlayerAPI Main command - lang
+        default:             op
+      playerapi.cmd.reload:
+        description:         PlayerAPI Main command - reload
+        default:             op
+      playerapi.cmd.save:
+        description:         PlayerAPI Main command - save
+        default:             op
+...
