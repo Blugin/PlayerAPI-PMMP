@@ -9,7 +9,7 @@ use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\plugin\PluginBase;
 use presentkim\playerapi\command\PoolCommand;
 use presentkim\playerapi\command\module\{
-    ModuleCommand
+  ModuleCommand
 };
 use presentkim\playerapi\command\subcommand\{
   ListSubCommand, LangSubCommand, ReloadSubCommand, SaveSubCommand
@@ -149,7 +149,7 @@ class PlayerAPI extends PluginBase{
      * @param ModuleCommand $module
      */
     public function addModule(ModuleCommand $module) : void{
-        $this->modules[$module->getName()] = $module;
+        $this->modules[$module->getModuleName()] = $module;
     }
 
     /**
