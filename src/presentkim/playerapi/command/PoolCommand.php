@@ -45,9 +45,7 @@ class PoolCommand extends ExecutableCommand{
                 }
             }
         }
-        /** @var PlayerAPI $plugin */
-        $plugin = $this->getPlugin();
-        $sender->sendMessage($plugin->getLanguage()->translate('commands.generic.usage', [$this->getUsage($sender)]));
+        $sender->sendMessage($this->getLanguage()->translate('commands.generic.usage', [$this->getUsage($sender)]));
         return true;
     }
 
