@@ -146,6 +146,15 @@ class PlayerAPI extends PluginBase{
     }
 
     /**
+     * @param string $moduleName
+     *
+     * @return null|ModuleCommand
+     */
+    public function getModule(string $moduleName) : ?ModuleCommand{
+        return $this->modules[$moduleName] ?? null;
+    }
+
+    /**
      * @param ModuleCommand $module
      */
     public function addModule(ModuleCommand $module) : void{
