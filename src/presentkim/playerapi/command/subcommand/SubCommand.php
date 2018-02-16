@@ -7,6 +7,7 @@ namespace presentkim\playerapi\command\subcommand;
 use pocketmine\command\CommandSender;
 use pocketmine\plugin\Plugin;
 use presentkim\playerapi\PlayerAPI;
+use presentkim\playerapi\command\ExecutableCommand;
 use presentkim\playerapi\lang\{
   Translation, TranslationTrait
 };
@@ -17,7 +18,7 @@ abstract class SubCommand implements Translation{
     use TranslationTrait;
 
     /**
-     * @var PoolCommand
+     * @var ExecutableCommand
      */
     protected $owner;
 
@@ -109,9 +110,9 @@ abstract class SubCommand implements Translation{
     }
 
     /**
-     * @return PoolCommand
+     * @return ExecutableCommand
      */
-    public function getOwner() : PoolCommand{
+    public function getOwner() : ExecutableCommand{
         return $this->owner;
     }
 
